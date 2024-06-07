@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Generador de Contenido y Paquete SCORM</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="container mt-4">
+    <h1>Generador de Contenido y Paquete SCORM</h1>
+    <form id="scorm-form">
+        <div class="form-group">
+            <label for="tema">Tema de la clase:</label>
+            <input type="text" class="form-control" id="tema" required>
+        </div>
+        <div class="form-group">
+            <label for="objetivo-general">Objetivo general de la clase:</label>
+            <textarea class="form-control" id="objetivo-general" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="objetivo-antes">Objetivo antes de la clase:</label>
+            <textarea class="form-control" id="objetivo-antes" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="objetivo-durante">Objetivo durante la clase:</label>
+            <textarea class="form-control" id="objetivo-durante" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="objetivo-despues">Objetivo después de la clase:</label>
+            <textarea class="form-control" id="objetivo-despues" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+            <label>Seleccione el contenido que desea para el paquete</label>
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Antes de clase:</h5>
+                    <div><input type="checkbox" id="resumen_tema" value="resumen_tema"> Resumen del tema</div>
+                    <div><input type="checkbox" id="video_introductorio" value="video_introductorio"> Video introductorio</div>
+                    <div><input type="checkbox" id="objetivos_clase" value="objetivos_clase"> Objetivos de la clase</div>
+                    <div><input type="checkbox" id="preguntas_motivacion" value="preguntas_motivacion"> Preguntas de motivación</div>
+                    <div><input type="checkbox" id="cuestionario" value="cuestionario"> Cuestionario</div>
+                    <div><input type="checkbox" id="motivacion" value="motivacion"> Motivación</div>
+                </div>
+                <div class="col-md-4">
+                    <h5>Durante la clase:</h5>
+                    <div><input type="checkbox" id="contenido_clase" value="contenido_clase"> Contenido de clase</div>
+                    <div><input type="checkbox" id="ejercicios_programacion" value="ejercicios_programacion"> Ejercicios de programación</div>
+                    <div><input type="checkbox" id="ejemplos_casos_reales" value="ejemplos_casos_reales"> Ejemplos con casos reales</div>
+                    <div><input type="checkbox" id="juego_preguntas" value="juego_preguntas"> Juego de preguntas</div>
+                    <div><input type="checkbox" id="trabajo_grupal" value="trabajo_grupal"> Trabajo grupal</div>
+                    <div><input type="checkbox" id="herramientas_externas" value="herramientas_externas"> Herramientas externas</div>
+                </div>
+                <div class="col-md-4">
+                    <h5>Después de clase:</h5>
+                    <div><input type="checkbox" id="resumen_clase" value="resumen_clase"> Resumen de clase</div>
+                    <div><input type="checkbox" id="cuestionario_despues" value="cuestionario_despues"> Cuestionario</div>
+                    <div><input type="checkbox" id="trabajo_despues_clase" value="trabajo_despues_clase"> Trabajo para después de clase</div>
+                    <div><input type="checkbox" id="recomendacion_libros" value="recomendacion_libros"> Recomendación de libros</div>
+                    <div><input type="checkbox" id="recomendaciones" value="recomendaciones"> Recomendaciones</div>
+                    <div><input type="checkbox" id="ejercicios_practicar" value="ejercicios_practicar"> Ejercicios para practicar</div>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary" id="generar-contenido">Generar contenido</button>
+    </form>
+    <div id="contenido-generado" class="mt-4"></div>
+    <button type="button" class="btn btn-success mt-4" id="confirmar-contenido" style="display:none;">Confirmar contenido y generar paquete SCORM</button>
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
