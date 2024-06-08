@@ -29,7 +29,7 @@ class ScormGenerator:
 
     def copiar_archivos_estaticos_y_config(self, config):
         for section, content in config.items():
-            carpeta_plantillas = self.seccion_carpeta_map[section]
+            carpeta_plantillas = self.seccion_carpeta_map.get(section, '')
             directorio_destino = os.path.join(self.scorm_dir, carpeta_plantillas)
             os.makedirs(directorio_destino, exist_ok=True)
             
@@ -40,7 +40,7 @@ class ScormGenerator:
                 with open(archivo_html_destino, 'w', encoding='utf-8') as file:
                     file.write(contenido_actualizado)
             
-            nombre_archivo_css = f"estilos_{carpeta_plantillas.split('/')[-1]}.css"
+            nombre_archivo_css = f"estilos_{carpeta_plantillas}.css"
             archivo_css_origen = os.path.join('plantillas', carpeta_plantillas, nombre_archivo_css)
             archivo_css_destino = os.path.join(directorio_destino, nombre_archivo_css)
             if os.path.exists(archivo_css_origen):
@@ -84,19 +84,27 @@ class ScormGenerator:
             agregar_recurso(section, 'despues_clase')
 
         contenido_imsmanifest = f"""<?xml version="1.0" encoding="UTF-8"?>
-<manifest xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
-        xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd
-                            http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd"
-        identifier="MANIFEST_ID"
-        version="1.0">
+<manifest identifier="com.scorm.manifest" version="1.2"
+          xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+          xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2
+                              imscp_rootv1p1p2.xsd
+                              http://www.adlnet.org/xsd/adlcp_rootv1p2
+                              adlcp_rootv1p2.xsd">
     <metadata>
         <schema>ADL SCORM</schema>
         <schemaversion>1.2</schemaversion>
+        <lom:lom xmlns:lom="http://ltsc.ieee.org/xsd/LOM">
+            <lom:general>
+                <lom:title>
+                    <lom:string language="en">Curso de Estructura de Datos</lom:string>
+                </lom:title>
+            </lom:general>
+        </lom:lom>
     </metadata>
-    <organizations default="ORGANIZACION_SCORM">
-        <organization identifier="ORGANIZACION_SCORM">
+    <organizations default="ORG001">
+        <organization identifier="ORG001">
             <title>Curso de Estructura de Datos</title>
             {"".join(items)}
         </organization>

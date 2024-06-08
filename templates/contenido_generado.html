@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Contenido Generado</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="container mt-4">
+    <h1>Contenido Generado</h1>
+    <div id="contenido-generado" class="mt-4">
+        {% for section, content in contenido_generado.items() %}
+            <h3>{{ section.replace('_', ' ').capitalize() }}</h3>
+            <div contenteditable="true" class="border p-2 mb-3">{{ content | safe }}</div>
+        {% endfor %}
+    </div>
+    <button type="button" class="btn btn-success mt-4" id="confirmar-contenido">Confirmar contenido y generar paquete SCORM</button>
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
