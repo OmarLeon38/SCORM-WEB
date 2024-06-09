@@ -1,11 +1,19 @@
+import openai
+import os
 from flask import Flask, request, jsonify, render_template, url_for, redirect, session
 from flask_cors import CORS
+from flask_session import Session
 import scorm_generator
 import openai_generator
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 CORS(app)
+
+# Configuración de Flask-Session
+app.config['SESSION_TYPE'] = 'filesystem'
+Session(app)
+
 scorm_gen = scorm_generator.ScormGenerator()
 
 @app.route('/')
@@ -29,6 +37,10 @@ def generar_contenido():
     objetivo_durante = data['objetivo_durante']
     objetivo_despues = data['objetivo_despues']
     seleccion = data['seleccion']
+    
+    # Limpiar la sesión antes de almacenar el nuevo contenido
+    session.pop('contenido_generado', None)
+    session.pop('seleccion', None)
     
     contenido_generado = {}
     try:
@@ -69,6 +81,9 @@ def generar_contenido():
         if "ejercicios_practicar" in seleccion["despues"]:
             contenido_generado["ejercicios_practicar"] = openai_generator.generar_ejercicios_practicar(tema, objetivo_general, objetivo_despues)
         
+        # Imprimir el contenido generado para depuración
+        print("Contenido generado:", contenido_generado)
+        
         session['contenido_generado'] = contenido_generado
         session['seleccion'] = seleccion  # Guardar la selección en la sesión
         return jsonify({'redirect_url': url_for('contenido_generado')})
@@ -77,16 +92,21 @@ def generar_contenido():
 
 @app.route('/confirmar', methods=['POST'])
 def confirmar():
-    if 'contenido_generado' in session and 'seleccion' in session:
-        contenido_generado = session['contenido_generado']
-        seleccion = session['seleccion']
-        try:
-            ruta_zip = scorm_gen.generar_paquete_scorm(contenido_generado, seleccion)
-            return jsonify({'status': 'Contenido confirmado y paquete SCORM generado', 'ruta': ruta_zip})
-        except Exception as e:
-            return jsonify({'status': 'Error', 'message': str(e)}), 500
-    else:
-        return jsonify({'status': 'Error', 'message': 'Contenido o selección no encontrados en la sesión'}), 400
+    data = request.json
+    contenido_editado = data.get('contenido', {})
+    seleccion = data.get('seleccion', {})
+    
+    if not contenido_editado or not seleccion:
+        return jsonify({'status': 'Error', 'message': 'Contenido o selección no encontrados'}), 400
+    
+    session['contenido_generado'] = contenido_editado
+    session['seleccion'] = seleccion
+    
+    try:
+        ruta_zip = scorm_gen.generar_paquete_scorm(contenido_editado, seleccion)
+        return jsonify({'status': 'Contenido confirmado y paquete SCORM generado', 'ruta': ruta_zip})
+    except Exception as e:
+        return jsonify({'status': 'Error', 'message': str(e)}), 500
 
 if __name__ == "__main__":
     app.run(port=5000)

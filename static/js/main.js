@@ -23,6 +23,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
 
+            // Mostrar la barra de carga y animarla
+            const progressBar = document.querySelector('.progress-bar');
+            progressBar.style.width = '0%';
+            progressBar.classList.add('progress-bar-animated');
+
+            let width = 0;
+            const interval = setInterval(() => {
+                width += 1;
+                progressBar.style.width = width + '%';
+                if (width >= 90) {
+                    clearInterval(interval);
+                }
+            }, 100);
+
             fetch('/generar_contenido', {
                 method: 'POST',
                 headers: {
@@ -39,6 +53,10 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => response.json())
             .then(data => {
+                clearInterval(interval);
+                progressBar.style.width = '100%';
+                progressBar.classList.remove('progress-bar-animated');
+
                 if (data.error) {
                     alert('Error: ' + data.error);
                 } else {
@@ -47,6 +65,9 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.error('Error:', error);
+                clearInterval(interval);
+                progressBar.style.width = '100%';
+                progressBar.classList.remove('progress-bar-animated');
             });
         });
     }
@@ -68,8 +89,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     contenido: contenidoEditado,
                     seleccion: {
                         antes: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.startsWith('resumen_') || input.value.startsWith('video_') || input.value.startsWith('objetivos_') || input.value.startsWith('preguntas_') || input.value.startsWith('cuestionario') || input.value.startsWith('motivacion')).map(input => input.value),
-                        durante: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.startsWith('contenido_') || input.value.startsWith('ejercicios_') || input.value.startsWith('ejemplos_') || input.value.startsWith('juego_') || input.value.startsWith('trabajo_') || input.value.startsWith('herramientas_')).map(input => input.value),
-                        despues: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.startsWith('resumen_clase') || input.value.startsWith('cuestionario_despues') || input.value.startsWith('trabajo_despues_clase') || input.value.startsWith('recomendacion_libros') || input.value.startswith('recomendaciones') || input.value.startsWith('ejercicios_practicar')).map(input => input.value)
+                        durante: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.startsWith('contenido_') || input.value.startsWith('ejercicios_') || input.value.startsWith('ejemplos_') || input.value.startsWith('juego_') || input.value.starts_with('trabajo_') || input.value.starts_with('herramientas_')).map(input => input.value),
+                        despues: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.starts_with('resumen_clase') || input.value.starts_with('cuestionario_despues') || input.value.starts_with('trabajo_despues_clase') || input.value.starts_with('recomendacion_libros') || input.value.starts_with('recomendaciones') || input.value.starts_with('ejercicios_practicar')).map(input => input.value)
                     }
                 })
             })
