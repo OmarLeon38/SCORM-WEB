@@ -43,43 +43,52 @@ def generar_contenido():
     session.pop('seleccion', None)
     
     contenido_generado = {}
+    print(f"Datos recibidos: {data}")
     try:
-        if "resumen_tema" in seleccion["antes"]:
-            contenido_generado["resumen_tema"] = openai_generator.generar_informacion(tema, objetivo_general, objetivo_antes)
-        if "video_introductorio" in seleccion["antes"]:
-            contenido_generado["video_introductorio"] = openai_generator.generar_video_youtube(tema)
+        if "motivacion" in seleccion["antes"]:
+            contenido_generado["motivacion"] = openai_generator.generar_motivacion(tema, objetivo_general, objetivo_antes)
         if "objetivos_clase" in seleccion["antes"]:
             contenido_generado["objetivos_clase"] = openai_generator.generar_objetivos_clase(tema, objetivo_general, objetivo_antes)
         if "preguntas_motivacion" in seleccion["antes"]:
             contenido_generado["preguntas_motivacion"] = openai_generator.generar_preguntas_motivacion(tema, objetivo_general, objetivo_antes)
-        if "cuestionario" in seleccion["antes"]:
-            contenido_generado["cuestionario"] = openai_generator.generar_cuestionario(tema, objetivo_general, objetivo_antes)
-        if "motivacion" in seleccion["antes"]:
-            contenido_generado["motivacion"] = openai_generator.generar_motivacion(tema, objetivo_general, objetivo_antes)
+        if "introduccion_tema" in seleccion["antes"]:
+            contenido_generado["introduccion_tema"] = openai_generator.generar_informacion(tema, objetivo_general, objetivo_antes)
+        if "video_introductorio" in seleccion["antes"]:
+            contenido_generado["video_introductorio"] = openai_generator.generar_video_youtube(tema)
+        if "cuestionario_conocimientos_previos" in seleccion["antes"]:
+            contenido_generado["cuestionario_conocimientos_previos"] = openai_generator.generar_cuestionario(tema, objetivo_general, objetivo_antes)
+        if "conceptos_basicos" in seleccion["antes"]:
+            contenido_generado["conceptos_basicos"] = openai_generator.generar_conceptos_basicos(tema, objetivo_general, objetivo_antes)
         if "contenido_clase" in seleccion["durante"]:
             contenido_generado["contenido_clase"] = openai_generator.generar_contenido_clase(tema, objetivo_general, objetivo_durante)
-        if "ejercicios_programacion" in seleccion["durante"]:
-            contenido_generado["ejercicios_programacion"] = openai_generator.generar_ejercicios_programacion(tema, objetivo_general, objetivo_durante)
         if "ejemplos_casos_reales" in seleccion["durante"]:
             contenido_generado["ejemplos_casos_reales"] = openai_generator.generar_ejemplos_casos_reales(tema, objetivo_general, objetivo_durante)
-        if "juego_preguntas" in seleccion["durante"]:
-            contenido_generado["juego_preguntas"] = openai_generator.generar_json_pasapalabra(tema, objetivo_general, objetivo_durante)
-        if "trabajo_grupal" in seleccion["durante"]:
-            contenido_generado["trabajo_grupal"] = openai_generator.generar_trabajo_grupal(tema, objetivo_general, objetivo_durante)
+        if "tarea_individual" in seleccion["durante"]:
+            contenido_generado["tarea_individual"] = openai_generator.generar_tarea_individual(tema, objetivo_general, objetivo_durante)
+        if "tarea_grupal" in seleccion["durante"]:
+            contenido_generado["tarea_grupal"] = openai_generator.generar_tarea_grupal(tema, objetivo_general, objetivo_durante)
         if "herramientas_externas" in seleccion["durante"]:
             contenido_generado["herramientas_externas"] = openai_generator.generar_herramientas_externas(tema, objetivo_general, objetivo_durante)
-        if "resumen_clase" in seleccion["despues"]:
-            contenido_generado["resumen_clase"] = openai_generator.generar_resumen_clase(tema, objetivo_general, objetivo_despues)
-        if "cuestionario_despues" in seleccion["despues"]:
-            contenido_generado["cuestionario_despues"] = openai_generator.generar_cuestionario_despues(tema, objetivo_general, objetivo_despues)
-        if "trabajo_despues_clase" in seleccion["despues"]:
-            contenido_generado["trabajo_despues_clase"] = openai_generator.generar_trabajo_despues_clase(tema, objetivo_general, objetivo_despues)
-        if "recomendacion_libros" in seleccion["despues"]:
-            contenido_generado["recomendacion_libros"] = openai_generator.generar_recomendacion_libros(tema, objetivo_general, objetivo_despues)
-        if "recomendaciones" in seleccion["despues"]:
-            contenido_generado["recomendaciones"] = openai_generator.generar_recomendaciones(tema, objetivo_general, objetivo_despues)
+        if "ejercicios_programacion" in seleccion["durante"]:
+            contenido_generado["ejercicios_programacion"] = openai_generator.generar_ejercicios_programacion(tema, objetivo_general, objetivo_durante)
+        if "ejercicios_completar_codigo" in seleccion["durante"]:
+            contenido_generado["ejercicios_completar_codigo"] = openai_generator.generar_ejercicios_completar_codigo(tema, objetivo_general, objetivo_durante)
+        if "ejercicios_corregir_codigo" in seleccion["durante"]:
+            contenido_generado["ejercicios_corregir_codigo"] = openai_generator.generar_ejercicios_corregir_codigo(tema, objetivo_general, objetivo_durante)
+        if "proyecto_clase" in seleccion["durante"]:
+            contenido_generado["proyecto_clase"] = openai_generator.generar_proyecto_clase(tema, objetivo_general, objetivo_durante)
+        if "cuestionario_final" in seleccion["despues"]:
+            contenido_generado["cuestionario_final"] = openai_generator.generar_cuestionario_final(tema, objetivo_general, objetivo_despues)
         if "ejercicios_practicar" in seleccion["despues"]:
             contenido_generado["ejercicios_practicar"] = openai_generator.generar_ejercicios_practicar(tema, objetivo_general, objetivo_despues)
+        if "tarea_despues_clase" in seleccion["despues"]:
+            contenido_generado["tarea_despues_clase"] = openai_generator.generar_tarea_despues_clase(tema, objetivo_general, objetivo_despues)
+        if "resumen_final" in seleccion["despues"]:
+            contenido_generado["resumen_final"] = openai_generator.generar_resumen_clase(tema, objetivo_general, objetivo_despues)
+        if "recomendacion_libros" in seleccion["despues"]:
+            contenido_generado["recomendacion_libros"] = openai_generator.generar_recomendacion_libros(tema, objetivo_general, objetivo_despues)
+        if "aplicacion_problemas_reales" in seleccion["despues"]:
+            contenido_generado["aplicacion_problemas_reales"] = openai_generator.generar_aplicacion_problemas_reales(tema, objetivo_general, objetivo_despues)
         
         # Imprimir el contenido generado para depuración
         print("Contenido generado:", contenido_generado)
@@ -88,6 +97,7 @@ def generar_contenido():
         session['seleccion'] = seleccion  # Guardar la selección en la sesión
         return jsonify({'redirect_url': url_for('contenido_generado')})
     except Exception as e:
+        print(f"Error: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/confirmar', methods=['POST'])

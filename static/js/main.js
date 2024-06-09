@@ -11,17 +11,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 durante: [],
                 despues: []
             };
+
             document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
                 if (checkbox.checked) {
-                    if (checkbox.value.startsWith('resumen_') || checkbox.value.startsWith('video_') || checkbox.value.startsWith('objetivos_') || checkbox.value.startsWith('preguntas_') || checkbox.value.startsWith('cuestionario') || checkbox.value.startsWith('motivacion')) {
+                    if (checkbox.value.startsWith('motivacion') || checkbox.value.startsWith('objetivos') || checkbox.value.startsWith('preguntas') || checkbox.value.startsWith('introduccion') || checkbox.value.startsWith('video') || checkbox.value.startsWith('cuestionario_conocimientos_previos') || checkbox.value.startsWith('conceptos')) {
                         seleccion.antes.push(checkbox.value);
-                    } else if (checkbox.value.startsWith('contenido_') || checkbox.value.startsWith('ejercicios_') || checkbox.value.startsWith('ejemplos_') || checkbox.value.startsWith('juego_') || checkbox.value.startsWith('trabajo_') || checkbox.value.startsWith('herramientas_')) {
+                    } else if (checkbox.value.startsWith('contenido') || checkbox.value.startsWith('ejemplos') || checkbox.value.startsWith('tarea_individual') || checkbox.value.startsWith('tarea_grupal') || checkbox.value.startsWith('herramientas') || checkbox.value.startsWith('ejercicios_programacion') || checkbox.value.startsWith('ejercicios_completar_codigo') || checkbox.value.startsWith('ejercicios_corregir_codigo') || checkbox.value.startsWith('proyecto')) {
                         seleccion.durante.push(checkbox.value);
-                    } else {
+                    } else if (checkbox.value.startsWith('cuestionario_final') || checkbox.value.startsWith('ejercicios_practicar') || checkbox.value.startsWith('resumen_final') || checkbox.value.startsWith('tarea_despues_clase') || checkbox.value.startsWith('recomendacion_libros') || checkbox.value.startsWith('aplicacion_problemas_reales')) {
                         seleccion.despues.push(checkbox.value);
                     }
                 }
             });
+
+            console.log('Selección:', seleccion);
 
             // Mostrar la barra de carga y animarla
             const progressBar = document.querySelector('.progress-bar');
@@ -88,9 +91,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify({
                     contenido: contenidoEditado,
                     seleccion: {
-                        antes: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.startsWith('resumen_') || input.value.startsWith('video_') || input.value.startsWith('objetivos_') || input.value.startsWith('preguntas_') || input.value.startsWith('cuestionario') || input.value.startsWith('motivacion')).map(input => input.value),
-                        durante: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.startsWith('contenido_') || input.value.startsWith('ejercicios_') || input.value.startsWith('ejemplos_') || input.value.startsWith('juego_') || input.value.starts_with('trabajo_') || input.value.starts_with('herramientas_')).map(input => input.value),
-                        despues: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.starts_with('resumen_clase') || input.value.starts_with('cuestionario_despues') || input.value.starts_with('trabajo_despues_clase') || input.value.starts_with('recomendacion_libros') || input.value.starts_with('recomendaciones') || input.value.starts_with('ejercicios_practicar')).map(input => input.value)
+                        antes: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.startsWith('motivacion') || input.value.startsWith('objetivos') || input.value.startsWith('preguntas') || input.value.startsWith('introduccion') || input.value.startsWith('video') || input.value.startsWith('cuestionario_conocimientos_previos') || input.value.startsWith('conceptos')).map(input => input.value),
+                        durante: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.startsWith('contenido') || input.value.startsWith('ejemplos') || input.value.startsWith('tarea_individual') || input.value.startsWith('tarea_grupal') || input.value.startsWith('herramientas') || input.value.startsWith('ejercicios_programacion') || input.value.startsWith('ejercicios_completar_codigo') || input.value.startsWith('ejercicios_corregir_codigo') || input.value.startsWith('proyecto')).map(input => input.value),
+                        despues: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.startsWith('cuestionario_final') || input.value.startsWith('ejercicios_practicar') || input.value.startsWith('resumen_final') || input.value.startsWith('tarea_despues_clase') || input.value.startsWith('recomendacion_libros') || input.value.startsWith('aplicacion_problemas_reales')).map(input => input.value)
                     }
                 })
             })

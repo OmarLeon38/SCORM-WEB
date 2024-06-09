@@ -1,0 +1,108 @@
+/* Estilos base para el cuerpo y enlaces */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    background: #f0f3f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+}
+
+/* Contenedor principal del quiz */
+#quiz-container {
+    width: 90%;
+    max-width: 500px;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+/* Título del quiz */
+#quiz-title {
+    font-size: 28px;
+    color: #2C3E50;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+/* Estilos para las preguntas y opciones */
+#question {
+    font-size: 20px;
+    color: #34495E;
+    margin-bottom: 20px;
+}
+
+#options li {
+    background: #ECF0F1;
+    margin: 10px 0;
+    padding: 15px 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    list-style: none;
+    transition: background-color 0.3s, transform 0.2s;
+    border-left: 5px solid transparent;
+}
+
+#options li:hover {
+    background-color: #D0D3D4;
+}
+
+#options li.selected {
+    background-color: #3498DB;
+    color: white;
+    border-left: 5px solid #3498DB;
+}
+
+#options li.correct {
+    background-color: #2ECC71;
+    color: white;
+    border-left: 5px solid #27AE60;
+}
+
+#options li.incorrect {
+    background-color: #E74C3C;
+    color: white;
+    border-left: 5px solid #C0392B;
+}
+
+/* Botones del quiz */
+button {
+    padding: 12px 25px;
+    margin-top: 25px;
+    background-color: #3498DB;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #2980B9;
+    transform: translateY(-2px);
+}
+
+button:disabled {
+    background-color: #BDC3C7;
+    cursor: not-allowed;
+}
+
+/* Resultados del quiz */
+#results {
+    text-align: center;
+    font-size: 22px;
+    color: #34495E;
+    padding-top: 20px;
+}
+
+#results h2 {
+    color: #27AE60;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
