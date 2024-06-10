@@ -3,9 +3,12 @@ from flask_cors import CORS
 from flask_session import Session
 import scorm_generator
 import openai_generator
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'
+app.secret_key = os.getenv('FLASK_SECRET_KEY')
 CORS(app)
 
 # Configuración de Flask-Session

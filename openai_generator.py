@@ -1,7 +1,10 @@
 import openai
 import os
+from dotenv import load_dotenv
 
-openai.api_key = 'sk-proj-SmmISqBO3ESPvfghaCvtT3BlbkFJJF4lGtBH3R7LM841VDM8'
+load_dotenv()
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def generar_motivacion(tema, objetivo_general, objetivo_antes):
     try:
