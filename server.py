@@ -102,21 +102,16 @@ def generar_contenido():
 
 @app.route('/confirmar', methods=['POST'])
 def confirmar():
-    data = request.json
-    contenido_editado = data.get('contenido', {})
-    seleccion = data.get('seleccion', {})
-    
-    if not contenido_editado or not seleccion:
-        return jsonify({'status': 'Error', 'message': 'Contenido o selección no encontrados'}), 400
-    
-    session['contenido_generado'] = contenido_editado
-    session['seleccion'] = seleccion
-    
-    try:
-        ruta_zip = scorm_gen.generar_paquete_scorm(contenido_editado, seleccion)
-        return jsonify({'status': 'Contenido confirmado y paquete SCORM generado', 'ruta': ruta_zip})
-    except Exception as e:
-        return jsonify({'status': 'Error', 'message': str(e)}), 500
+    if 'contenido_generado' in session and 'seleccion' in session:
+        contenido_generado = session['contenido_generado']
+        seleccion = session['seleccion']
+        try:
+            ruta_zip = scorm_gen.generar_paquete_scorm(contenido_generado, seleccion)
+            return jsonify({'status': 'Contenido confirmado y paquete SCORM generado', 'ruta': ruta_zip})
+        except Exception as e:
+            return jsonify({'status': 'Error', 'message': str(e)}), 500
+    else:
+        return jsonify({'status': 'Error', 'message': 'Contenido o selección no encontrados en la sesión'}), 400
 
 if __name__ == "__main__":
     app.run(port=5000)
