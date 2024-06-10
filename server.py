@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify, render_template, url_for, redirect, session
 from flask_cors import CORS
 from flask_session import Session
@@ -16,6 +17,7 @@ app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
 
 scorm_gen = scorm_generator.ScormGenerator()
+
 
 @app.route('/')
 def index():
