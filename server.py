@@ -21,8 +21,7 @@ scorm_gen = scorm_generator.ScormGenerator()
 
 @app.route('/')
 def index():
-    session['key'] = 'value'
-    return 'Sesión guardada en una cookie!'
+    return render_template('index.html')
 
 @app.route('/contenido_generado')
 def contenido_generado():
