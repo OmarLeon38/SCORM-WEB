@@ -63,20 +63,20 @@ def generar_video_youtube(tema):
     except openai.error.OpenAIError as e:
         raise RuntimeError(f"Error al generar enlace de video: {e}")
 
-def generar_cuestionario(tema, objetivo_general, objetivo_antes):
+def generar_cuestionario_conocimientos_previos(tema, objetivo_general, objetivo_antes):
     try:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
                 {
                     "role": "system",
-                    "content": f"Generar un cuestionario en JSON con cinco preguntas de opción múltiple sobre {tema}. Las preguntas deben tener el siguiente formato: {{ 'question': 'Pregunta', 'options': ['opcion1', 'opcion2', 'opcion3', 'opcion4'], 'answer': 'respuesta_correcta' }}. Objetivos: {objetivo_general}, {objetivo_antes}."
+                    "content": f"Generar un cuestionario en JSON con cinco preguntas de opción múltiple sobre {tema} para evaluar conocimientos previos. Las preguntas deben tener el siguiente formato: {{ 'pregunta': 'Pregunta', 'opciones': ['opcion1', 'opcion2', 'opcion3', 'opcion4'], 'respuesta': 'respuesta_correcta' }}. Objetivos: {objetivo_general}, {objetivo_antes}."
                 }
             ]
         )
         return response['choices'][0]['message']['content']
     except openai.error.OpenAIError as e:
-        raise RuntimeError(f"Error al generar cuestionario: {e}")
+        raise RuntimeError(f"Error al generar cuestionario de conocimientos previos: {e}")
 
 def generar_conceptos_basicos(tema, objetivo_general, objetivo_antes):
     try:
@@ -205,7 +205,7 @@ def generar_cuestionario_final(tema, objetivo_general, objetivo_despues):
             messages=[
                 {
                     "role": "system",
-                    "content": f"Generar un cuestionario en JSON con cinco preguntas de opción múltiple sobre {tema} para evaluar lo aprendido. Las preguntas deben tener el siguiente formato: {{ 'question': 'Pregunta', 'options': ['opcion1', 'opcion2', 'opcion3', 'opcion4'], 'answer': 'respuesta_correcta' }}. Objetivos: {objetivo_general}, {objetivo_despues}."
+                    "content": f"Generar un cuestionario en JSON con cinco preguntas de opción múltiple sobre {tema} para evaluar al final de la clase. Las preguntas deben tener el siguiente formato: {{ 'pregunta': 'Pregunta', 'opciones': ['opcion1', 'opcion2', 'opcion3', 'opcion4'], 'respuesta': 'respuesta_correcta' }}. Objetivos: {objetivo_general}, {objetivo_despues}."
                 }
             ]
         )

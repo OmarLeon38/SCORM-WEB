@@ -1,5 +1,3 @@
-import openai
-import os
 from flask import Flask, request, jsonify, render_template, url_for, redirect, session
 from flask_cors import CORS
 from flask_session import Session
@@ -56,7 +54,7 @@ def generar_contenido():
         if "video_introductorio" in seleccion["antes"]:
             contenido_generado["video_introductorio"] = openai_generator.generar_video_youtube(tema)
         if "cuestionario_conocimientos_previos" in seleccion["antes"]:
-            contenido_generado["cuestionario_conocimientos_previos"] = openai_generator.generar_cuestionario(tema, objetivo_general, objetivo_antes)
+            contenido_generado["cuestionario_conocimientos_previos"] = openai_generator.generar_cuestionario_conocimientos_previos(tema, objetivo_general, objetivo_antes)
         if "conceptos_basicos" in seleccion["antes"]:
             contenido_generado["conceptos_basicos"] = openai_generator.generar_conceptos_basicos(tema, objetivo_general, objetivo_antes)
         if "contenido_clase" in seleccion["durante"]:
