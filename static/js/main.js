@@ -26,6 +26,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
             console.log('Selección:', seleccion);
 
+            const requestBody = {
+                tema: tema,
+                objetivo_general: objetivo_general,
+                objetivo_antes: objetivo_antes,
+                objetivo_durante: objetivo_durante,
+                objetivo_despues: objetivo_despues,
+                seleccion: seleccion
+            };
+
             // Mostrar la barra de carga y animarla
             const progressBar = document.querySelector('.progress-bar');
             progressBar.style.width = '0%';
@@ -45,21 +54,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    tema: tema,
-                    objetivo_general: objetivo_general,
-                    objetivo_antes: objetivo_antes,
-                    objetivo_durante: objetivo_durante,
-                    objetivo_despues: objetivo_despues,
-                    seleccion: seleccion
-                })
+                body: JSON.stringify(requestBody)
             })
-            .then(response => response.json())
-            .then(data => {
+            .then(response => {
                 clearInterval(interval);
                 progressBar.style.width = '100%';
                 progressBar.classList.remove('progress-bar-animated');
 
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    return response.json().then(error => { throw new Error(error.error || 'Error desconocido'); });
+                }
+            })
+            .then(data => {
                 if (data.error) {
                     alert('Error: ' + data.error);
                 } else {
