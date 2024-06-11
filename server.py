@@ -129,4 +129,4 @@ def descargar(filename):
 
 if __name__ == "__main__":
     from waitress import serve
-    serve(app, host="0.0.0.0", port=5000)
+    serve(app, host="0.0.0.0", port=5000, connection_limit=100, connection_timeout=600)
