@@ -5,8 +5,7 @@ import tempfile
 
 class ScormGenerator:
     def __init__(self):
-        self.scorm_dir = tempfile.mkdtemp()
-        os.makedirs(self.scorm_dir, exist_ok=True)
+        self.scorm_dir = self.create_temp_dir()
         self.seccion_carpeta_map = {
             'motivacion': 'antes_clase',
             'objetivos_clase': 'antes_clase',
@@ -32,10 +31,16 @@ class ScormGenerator:
             'aplicacion_problemas_reales': 'despues_clase'
         }
 
+    def create_temp_dir(self):
+        temp_dir = tempfile.mkdtemp()
+        if not os.path.exists(temp_dir):
+            os.makedirs(temp_dir)
+        return temp_dir
+
     def limpiar_archivos_antiguos(self):
-        shutil.rmtree(self.scorm_dir)
-        self.scorm_dir = tempfile.mkdtemp()
-        os.makedirs(self.scorm_dir, exist_ok=True)
+        if os.path.exists(self.scorm_dir):
+            shutil.rmtree(self.scorm_dir)
+        self.scorm_dir = self.create_temp_dir()
 
     def copiar_archivos_estaticos_y_config(self, config):
         for section, content in config.items():
@@ -191,6 +196,8 @@ class ScormGenerator:
         return zip_path
 
     def generar_paquete_scorm(self, config, seleccion):
+        # Limpiar cualquier archivo SCORM previo antes de generar uno nuevo
+        self.limpiar_archivos_antiguos()
         # Copia las plantillas, actualiza con los marcadores y empaqueta
         self.copiar_archivos_estaticos_y_config(config)
         self.generar_imsmanifest(seleccion)

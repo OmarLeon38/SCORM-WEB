@@ -109,8 +109,6 @@ def confirmar():
         contenido_generado = session['contenido_generado']
         seleccion = session['seleccion']
         try:
-            # Limpiar cualquier archivo SCORM previo antes de generar uno nuevo
-            scorm_gen.limpiar_archivos_antiguos()
             ruta_zip = scorm_gen.generar_paquete_scorm(contenido_generado, seleccion)
             filename = os.path.basename(ruta_zip)
             return jsonify({'status': 'Contenido confirmado y paquete SCORM generado', 'ruta': url_for('descargar', filename=filename)})
