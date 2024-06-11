@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         seleccion.antes.push(checkbox.value);
                     } else if (checkbox.value.startsWith('contenido') || checkbox.value.startsWith('ejemplos') || checkbox.value.startsWith('tarea_individual') || checkbox.value.startsWith('tarea_grupal') || checkbox.value.startsWith('herramientas') || checkbox.value.startsWith('ejercicios_programacion') || checkbox.value.startsWith('ejercicios_completar_codigo') || checkbox.value.startsWith('ejercicios_corregir_codigo') || checkbox.value.startsWith('proyecto')) {
                         seleccion.durante.push(checkbox.value);
-                    } else if (checkbox.value.startsWith('cuestionario_final') || checkbox.value.startsWith('ejercicios_practicar') || checkbox.value.startsWith('resumen_final') || checkbox.value.startsWith('tarea_despues_clase') || checkbox.value.startsWith('recomendacion_libros') || checkbox.value.startsWith('aplicacion_problemas_reales')) {
+                    } else if (checkbox.value.startsWith('cuestionario_final') || checkbox.value.startsWith('ejercicios_practicar') || checkbox.value.startsWith('resumen_final') || checkbox.value.starts.with('tarea_despues_clase') || checkbox.value.startsWith('recomendacion_libros') || checkbox.value.startsWith('aplicacion_problemas_reales')) {
                         seleccion.despues.push(checkbox.value);
                     }
                 }
@@ -65,6 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 clearInterval(interval);
                 progressBar.style.width = '100%';
                 progressBar.classList.remove('progress-bar-animated');
+                alert('Ocurrió un error al generar el contenido.');
             });
         });
     }
@@ -85,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     contenido: contenidoEditado,
                     seleccion: {
                         antes: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.startsWith('motivacion') || input.value.startsWith('objetivos') || input.value.startsWith('preguntas') || input.value.startsWith('introduccion') || input.value.startsWith('video') || input.value.startsWith('cuestionario_conocimientos_previos') || input.value.startsWith('conceptos')).map(input => input.value),
-                        durante: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.startsWith('contenido') || input.value.startsWith('ejemplos') || input.value.startsWith('tarea_individual') || input.value.startsWith('tarea_grupal') || input.value.startsWith('herramientas') || input.value.startsWith('ejercicios_programacion') || input.value.startsWith('ejercicios_completar_codigo') || input.value.startsWith('ejercicios_corregir_codigo') || input.value.startsWith('proyecto')).map(input => input.value),
+                        durante: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.startsWith('contenido') || input.value.startsWith('ejemplos') || input.value.startsWith('tarea_individual') || input.value.startsWith('tarea_grupal') || input.value.startsWith('herramientas') || input.value.startsWith('ejercicios_programacion') || input.value.starts.with('ejercicios_completar_codigo') || input.value.startsWith('ejercicios_corregir_codigo') || input.value.startsWith('proyecto')).map(input => input.value),
                         despues: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.startsWith('cuestionario_final') || input.value.startsWith('ejercicios_practicar') || input.value.startsWith('resumen_final') || input.value.startsWith('tarea_despues_clase') || input.value.startsWith('recomendacion_libros') || input.value.startsWith('aplicacion_problemas_reales')).map(input => input.value)
                     }
                 })
