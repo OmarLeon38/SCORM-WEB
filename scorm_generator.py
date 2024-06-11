@@ -69,6 +69,7 @@ class ScormGenerator:
                 archivo_css_destino = os.path.join(directorio_destino, nombre_archivo_css)
                 if os.path.exists(archivo_css_origen):
                     shutil.copy(archivo_css_origen, archivo_css_destino)
+                    
     def actualizar_html(self, html_path, placeholders):
         if not os.path.exists(html_path):
             raise FileNotFoundError(f"El archivo no existe: {html_path}")
@@ -88,6 +89,7 @@ class ScormGenerator:
         preguntas_js = f"const bd_juego = {preguntas_json};"
         content = content.replace("{{ preguntas }}", preguntas_js)
         return content
+    
     def generar_imsmanifest(self, seleccion):
         # Generar el manifiesto SCORM basado en la selección del usuario
         items_antes = []
@@ -174,6 +176,7 @@ class ScormGenerator:
         manifest_path = os.path.join(self.scorm_dir, "imsmanifest.xml")
         with open(manifest_path, "w", encoding="utf-8") as file:
             file.write(contenido_imsmanifest)
+
     def empaquetar_scorm(self):
         # Empaqueta todos los archivos en un ZIP para el paquete SCORM
         zip_path = os.path.join(tempfile.gettempdir(), 'paquete_scorm.zip')

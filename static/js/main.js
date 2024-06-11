@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         seleccion.antes.push(checkbox.value);
                     } else if (checkbox.value.startsWith('contenido') || checkbox.value.startsWith('ejemplos') || checkbox.value.startsWith('tarea_individual') || checkbox.value.startsWith('tarea_grupal') || checkbox.value.startsWith('herramientas') || checkbox.value.startsWith('ejercicios_programacion') || checkbox.value.startsWith('ejercicios_completar_codigo') || checkbox.value.startsWith('ejercicios_corregir_codigo') || checkbox.value.startsWith('proyecto')) {
                         seleccion.durante.push(checkbox.value);
-                    } else if (checkbox.value.startsWith('cuestionario_final') || checkbox.value.startsWith('ejercicios_practicar') || checkbox.value.startsWith('resumen_final') || checkbox.value.starts.with('tarea_despues_clase') || checkbox.value.startsWith('recomendacion_libros') || checkbox.value.startsWith('aplicacion_problemas_reales')) {
+                    } else if (checkbox.value.startsWith('cuestionario_final') || checkbox.value.startsWith('ejercicios_practicar') || checkbox.value.startsWith('resumen_final') || checkbox.value.startsWith('tarea_despues_clase') || checkbox.value.startsWith('recomendacion_libros') || checkbox.value.startsWith('aplicacion_problemas_reales')) {
                         seleccion.despues.push(checkbox.value);
                     }
                 }
