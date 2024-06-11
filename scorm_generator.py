@@ -1,10 +1,11 @@
 import os
 import shutil
 import zipfile
+import tempfile
 
 class ScormGenerator:
-    def __init__(self, scorm_dir='C:/paquete_scorm'):
-        self.scorm_dir = scorm_dir
+    def __init__(self):
+        self.scorm_dir = tempfile.mkdtemp()
         os.makedirs(self.scorm_dir, exist_ok=True)
         self.seccion_carpeta_map = {
             'motivacion': 'antes_clase',
@@ -30,6 +31,11 @@ class ScormGenerator:
             'recomendacion_libros': 'despues_clase',
             'aplicacion_problemas_reales': 'despues_clase'
         }
+
+    def limpiar_archivos_antiguos(self):
+        shutil.rmtree(self.scorm_dir)
+        self.scorm_dir = tempfile.mkdtemp()
+        os.makedirs(self.scorm_dir, exist_ok=True)
 
     def copiar_archivos_estaticos_y_config(self, config):
         for section, content in config.items():
@@ -175,7 +181,7 @@ class ScormGenerator:
 
     def empaquetar_scorm(self):
         # Empaqueta todos los archivos en un ZIP para el paquete SCORM
-        zip_path = os.path.join(self.scorm_dir, 'paquete_scorm.zip')
+        zip_path = os.path.join(tempfile.gettempdir(), 'paquete_scorm.zip')
         with zipfile.ZipFile(zip_path, 'w') as zipf:
             for root, dirs, files in os.walk(self.scorm_dir):
                 for file in files:

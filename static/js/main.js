@@ -102,7 +102,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.status === 'Error') {
                     alert('Error: ' + data.message);
                 } else {
-                    alert(data.status + (data.ruta ? '\nRuta: ' + data.ruta : ''));
+                    alert(data.status);
+                    if (data.ruta) {
+                        window.location.href = data.ruta;
+                    }
                 }
             })
             .catch(error => {

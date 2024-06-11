@@ -1,5 +1,6 @@
 import os
-from flask import Flask, request, jsonify, render_template, url_for, redirect, session
+import tempfile
+from flask import Flask, request, jsonify, render_template, url_for, redirect, session, send_file
 from flask_cors import CORS
 from flask_session import Session
 import scorm_generator
@@ -18,11 +19,10 @@ Session(app)
 
 scorm_gen = scorm_generator.ScormGenerator()
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
-
+    
 @app.route('/contenido_generado')
 def contenido_generado():
     if 'contenido_generado' in session:
@@ -109,12 +109,23 @@ def confirmar():
         contenido_generado = session['contenido_generado']
         seleccion = session['seleccion']
         try:
+            # Limpiar cualquier archivo SCORM previo antes de generar uno nuevo
+            scorm_gen.limpiar_archivos_antiguos()
             ruta_zip = scorm_gen.generar_paquete_scorm(contenido_generado, seleccion)
-            return jsonify({'status': 'Contenido confirmado y paquete SCORM generado', 'ruta': ruta_zip})
+            filename = os.path.basename(ruta_zip)
+            return jsonify({'status': 'Contenido confirmado y paquete SCORM generado', 'ruta': url_for('descargar', filename=filename)})
         except Exception as e:
             return jsonify({'status': 'Error', 'message': str(e)}), 500
     else:
         return jsonify({'status': 'Error', 'message': 'Contenido o selección no encontrados en la sesión'}), 400
+
+@app.route('/descargar/<filename>', methods=['GET'])
+def descargar(filename):
+    try:
+        # Suponiendo que los archivos ZIP se guardan en el directorio de archivos temporales
+        return send_file(os.path.join(tempfile.gettempdir(), filename), as_attachment=True)
+    except Exception as e:
+        return str(e)
 
 if __name__ == "__main__":
     from waitress import serve
