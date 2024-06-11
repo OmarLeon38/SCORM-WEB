@@ -54,18 +54,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     seleccion: seleccion
                 })
             })
-            .then(response => {
+            .then(response => response.json())
+            .then(data => {
                 clearInterval(interval);
                 progressBar.style.width = '100%';
                 progressBar.classList.remove('progress-bar-animated');
 
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    return response.json().then(error => { throw new Error(error.error || 'Error desconocido'); });
-                }
-            })
-            .then(data => {
                 if (data.error) {
                     alert('Error: ' + data.error);
                 } else {
