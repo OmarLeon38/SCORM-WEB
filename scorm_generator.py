@@ -69,13 +69,11 @@ class ScormGenerator:
                 archivo_css_destino = os.path.join(directorio_destino, nombre_archivo_css)
                 if os.path.exists(archivo_css_origen):
                     shutil.copy(archivo_css_origen, archivo_css_destino)
-
     def actualizar_html(self, html_path, placeholders):
         if not os.path.exists(html_path):
             raise FileNotFoundError(f"El archivo no existe: {html_path}")
         with open(html_path, 'r', encoding='utf-8') as file:
             content = file.read()
-
         for key, value in placeholders.items():
             placeholder = f"{{{{ {key} }}}}"
             content = content.replace(placeholder, value)
@@ -90,14 +88,12 @@ class ScormGenerator:
         preguntas_js = f"const bd_juego = {preguntas_json};"
         content = content.replace("{{ preguntas }}", preguntas_js)
         return content
-
     def generar_imsmanifest(self, seleccion):
         # Generar el manifiesto SCORM basado en la selección del usuario
         items_antes = []
         items_durante = []
         items_despues = []
         resources = []
-
         def agregar_recurso(section, carpeta):
             if section in seleccion["antes"]:
                 items_antes.append(f"""
@@ -134,16 +130,12 @@ class ScormGenerator:
                         <file href="{carpeta}/estilos_{carpeta.split('/')[0]}.css"/>
                     </resource>
                 """)
-
         for section in seleccion["antes"]:
             agregar_recurso(section, self.seccion_carpeta_map[section])
-
         for section in seleccion["durante"]:
             agregar_recurso(section, self.seccion_carpeta_map[section])
-
         for section in seleccion["despues"]:
             agregar_recurso(section, self.seccion_carpeta_map[section])
-
         contenido_imsmanifest = f"""<?xml version="1.0" encoding="UTF-8"?>
 <manifest xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
         xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
@@ -178,12 +170,10 @@ class ScormGenerator:
     </resources>
 </manifest>
         """
-
         # Escribir el manifiesto en un archivo `imsmanifest.xml`
         manifest_path = os.path.join(self.scorm_dir, "imsmanifest.xml")
         with open(manifest_path, "w", encoding="utf-8") as file:
             file.write(contenido_imsmanifest)
-
     def empaquetar_scorm(self):
         # Empaqueta todos los archivos en un ZIP para el paquete SCORM
         zip_path = os.path.join(tempfile.gettempdir(), 'paquete_scorm.zip')

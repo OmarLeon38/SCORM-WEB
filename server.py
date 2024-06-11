@@ -6,19 +6,14 @@ from flask_session import Session
 import scorm_generator
 import openai_generator
 from dotenv import load_dotenv
-
 load_dotenv()
-
 app = Flask(__name__)
 app.secret_key = os.getenv('FLASK_SECRET_KEY')
 CORS(app)
-
 # Configuración de Flask-Session
 app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
-
 scorm_gen = scorm_generator.ScormGenerator()
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -30,7 +25,6 @@ def contenido_generado():
         return render_template('contenido_generado.html', contenido_generado=contenido_generado)
     else:
         return redirect(url_for('index'))
-
 @app.route('/generar_contenido', methods=['POST'])
 def generar_contenido():
     data = request.json
@@ -102,7 +96,6 @@ def generar_contenido():
     except Exception as e:
         print(f"Error: {str(e)}")
         return jsonify({'error': str(e)}), 500
-
 @app.route('/confirmar', methods=['POST'])
 def confirmar():
     if 'contenido_generado' in session and 'seleccion' in session:
@@ -116,7 +109,6 @@ def confirmar():
             return jsonify({'status': 'Error', 'message': str(e)}), 500
     else:
         return jsonify({'status': 'Error', 'message': 'Contenido o selección no encontrados en la sesión'}), 400
-
 @app.route('/descargar/<filename>', methods=['GET'])
 def descargar(filename):
     try:
@@ -124,7 +116,6 @@ def descargar(filename):
         return send_file(os.path.join(tempfile.gettempdir(), filename), as_attachment=True)
     except Exception as e:
         return str(e)
-
 if __name__ == "__main__":
     from waitress import serve
     serve(app, host="0.0.0.0", port=5000)
