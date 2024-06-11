@@ -22,7 +22,7 @@ scorm_gen = scorm_generator.ScormGenerator()
 @app.route('/')
 def index():
     return render_template('index.html')
-
+    
 @app.route('/contenido_generado')
 def contenido_generado():
     if 'contenido_generado' in session:
@@ -40,11 +40,11 @@ def generar_contenido():
     objetivo_durante = data['objetivo_durante']
     objetivo_despues = data['objetivo_despues']
     seleccion = data['seleccion']
-
+    
     # Limpiar la sesión antes de almacenar el nuevo contenido
     session.pop('contenido_generado', None)
     session.pop('seleccion', None)
-
+    
     contenido_generado = {}
     print(f"Datos recibidos: {data}")
     try:
@@ -62,36 +62,24 @@ def generar_contenido():
             contenido_generado["cuestionario_conocimientos_previos"] = openai_generator.generar_cuestionario_conocimientos_previos(tema, objetivo_general, objetivo_antes)
         if "conceptos_basicos" in seleccion["antes"]:
             contenido_generado["conceptos_basicos"] = openai_generator.generar_conceptos_basicos(tema, objetivo_general, objetivo_antes)
-
-        # Debugging for "durante" section
         if "contenido_clase" in seleccion["durante"]:
-            print("Generando contenido_clase...")
             contenido_generado["contenido_clase"] = openai_generator.generar_contenido_clase(tema, objetivo_general, objetivo_durante)
         if "ejemplos_casos_reales" in seleccion["durante"]:
-            print("Generando ejemplos_casos_reales...")
             contenido_generado["ejemplos_casos_reales"] = openai_generator.generar_ejemplos_casos_reales(tema, objetivo_general, objetivo_durante)
         if "tarea_individual" in seleccion["durante"]:
-            print("Generando tarea_individual...")
             contenido_generado["tarea_individual"] = openai_generator.generar_tarea_individual(tema, objetivo_general, objetivo_durante)
         if "tarea_grupal" in seleccion["durante"]:
-            print("Generando tarea_grupal...")
             contenido_generado["tarea_grupal"] = openai_generator.generar_tarea_grupal(tema, objetivo_general, objetivo_durante)
         if "herramientas_externas" in seleccion["durante"]:
-            print("Generando herramientas_externas...")
             contenido_generado["herramientas_externas"] = openai_generator.generar_herramientas_externas(tema, objetivo_general, objetivo_durante)
         if "ejercicios_programacion" in seleccion["durante"]:
-            print("Generando ejercicios_programacion...")
             contenido_generado["ejercicios_programacion"] = openai_generator.generar_ejercicios_programacion(tema, objetivo_general, objetivo_durante)
         if "ejercicios_completar_codigo" in seleccion["durante"]:
-            print("Generando ejercicios_completar_codigo...")
             contenido_generado["ejercicios_completar_codigo"] = openai_generator.generar_ejercicios_completar_codigo(tema, objetivo_general, objetivo_durante)
         if "ejercicios_corregir_codigo" in seleccion["durante"]:
-            print("Generando ejercicios_corregir_codigo...")
             contenido_generado["ejercicios_corregir_codigo"] = openai_generator.generar_ejercicios_corregir_codigo(tema, objetivo_general, objetivo_durante)
         if "proyecto_clase" in seleccion["durante"]:
-            print("Generando proyecto_clase...")
             contenido_generado["proyecto_clase"] = openai_generator.generar_proyecto_clase(tema, objetivo_general, objetivo_durante)
-
         if "cuestionario_final" in seleccion["despues"]:
             contenido_generado["cuestionario_final"] = openai_generator.generar_cuestionario_final(tema, objetivo_general, objetivo_despues)
         if "ejercicios_practicar" in seleccion["despues"]:
@@ -104,10 +92,10 @@ def generar_contenido():
             contenido_generado["recomendacion_libros"] = openai_generator.generar_recomendacion_libros(tema, objetivo_general, objetivo_despues)
         if "aplicacion_problemas_reales" in seleccion["despues"]:
             contenido_generado["aplicacion_problemas_reales"] = openai_generator.generar_aplicacion_problemas_reales(tema, objetivo_general, objetivo_despues)
-
+        
         # Imprimir el contenido generado para depuración
         print("Contenido generado:", contenido_generado)
-
+        
         session['contenido_generado'] = contenido_generado
         session['seleccion'] = seleccion  # Guardar la selección en la sesión
         return jsonify({'redirect_url': url_for('contenido_generado')})
@@ -135,7 +123,7 @@ def descargar(filename):
         # Suponiendo que los archivos ZIP se guardan en el directorio de archivos temporales
         return send_file(os.path.join(tempfile.gettempdir(), filename), as_attachment=True)
     except Exception as e:
-        return jsonify({'error': str(e)})
+        return str(e)
 
 if __name__ == "__main__":
     from waitress import serve
