@@ -1,4 +1,5 @@
 import os
+import tempfile
 from flask import Flask, request, jsonify, render_template, url_for, redirect, session, send_file
 from flask_cors import CORS
 from flask_session import Session
@@ -92,13 +93,6 @@ def generar_contenido():
         if "aplicacion_problemas_reales" in seleccion["despues"]:
             contenido_generado["aplicacion_problemas_reales"] = openai_generator.generar_aplicacion_problemas_reales(tema, objetivo_general, objetivo_despues)
         
-        # Validar el JSON generado
-        try:
-            json_data = json.dumps(contenido_generado)
-            json.loads(json_data)  # Verificar si el JSON es válido
-        except ValueError as e:
-            raise RuntimeError(f"Error en el JSON generado: {e}")
-
         # Imprimir el contenido generado para depuración
         print("Contenido generado:", contenido_generado)
         
@@ -133,4 +127,4 @@ def descargar(filename):
 
 if __name__ == "__main__":
     from waitress import serve
-    serve(app, host="0.0.0.0", port=5000, threads=6, connection_limit=100, channel_timeout=300)
+    serve(app, host="0.0.0.0", port=5000)
