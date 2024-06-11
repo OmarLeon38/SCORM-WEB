@@ -14,11 +14,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
             document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
                 if (checkbox.checked) {
-                    if (checkbox.value.startsWith('motivacion') || checkbox.value.startsWith('objetivos') || checkbox.value.startsWith('preguntas') || checkbox.value.startsWith('introduccion') || checkbox.value.startsWith('video') || checkbox.value.startsWith('cuestionario_conocimientos_previos') || checkbox.value.startsWith('conceptos')) {
+                    if (checkbox.value.startsWith('motivacion') || checkbox.value.startsWith('objetivos') || checkbox.value.startsWith('preguntas') || checkbox.value.startsWith('introduccion') || checkbox.value.startsarts('video') || checkbox.value.startsarts('cuestionario_conocimientos_previos') || checkbox.value.startsarts('conceptos')) {
                         seleccion.antes.push(checkbox.value);
-                    } else if (checkbox.value.startsWith('contenido') || checkbox.value.startsWith('ejemplos') || checkbox.value.startsWith('tarea_individual') || checkbox.value.startsWith('tarea_grupal') || checkbox.value.startsWith('herramientas') || checkbox.value.startsWith('ejercicios_programacion') || checkbox.value.startsWith('ejercicios_completar_codigo') || checkbox.value.startsWith('ejercicios_corregir_codigo') || checkbox.value.startsWith('proyecto')) {
+                    } else if (checkbox.value.startsarts('contenido') || checkbox.value.startsarts('ejemplos') || checkbox.value.startsarts('tarea_individual') || checkbox.value.startsarts('tarea_grupal') || checkbox.value.startsarts('herramientas') || checkbox.value.startsarts('ejercicios_programacion') || checkbox.value.startsarts('ejercicios_completar_codigo') || checkbox.value.startsarts('ejercicios_corregir_codigo') || checkbox.value.startsarts('proyecto')) {
                         seleccion.durante.push(checkbox.value);
-                    } else if (checkbox.value.startsWith('cuestionario_final') || checkbox.value.startsWith('ejercicios_practicar') || checkbox.value.startsWith('resumen_final') || checkbox.value.startsWith('tarea_despues_clase') || checkbox.value.startsWith('recomendacion_libros') || checkbox.value.startsWith('aplicacion_problemas_reales')) {
+                    } else if (checkbox.value.startsarts('cuestionario_final') || checkbox.value.startsarts('ejercicios_practicar') || checkbox.value.startsarts('resumen_final') || checkbox.value.startsarts('tarea_despues_clase') || checkbox.value.startsarts('recomendacion_libros') || checkbox.value.startsarts('aplicacion_problemas_reales')) {
                         seleccion.despues.push(checkbox.value);
                     }
                 }
@@ -54,12 +54,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     seleccion: seleccion
                 })
             })
-            .then(response => response.json())
-            .then(data => {
+            .then(response => {
                 clearInterval(interval);
                 progressBar.style.width = '100%';
                 progressBar.classList.remove('progress-bar-animated');
 
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    return response.json().then(error => { throw new Error(error.error || 'Error desconocido'); });
+                }
+            })
+            .then(data => {
                 if (data.error) {
                     alert('Error: ' + data.error);
                 } else {
@@ -71,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 clearInterval(interval);
                 progressBar.style.width = '100%';
                 progressBar.classList.remove('progress-bar-animated');
+                alert('Error al generar el contenido: ' + error.message);
             });
         });
     }
@@ -91,9 +98,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify({
                     contenido: contenidoEditado,
                     seleccion: {
-                        antes: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.startsWith('motivacion') || input.value.startsWith('objetivos') || input.value.startsWith('preguntas') || input.value.startsWith('introduccion') || input.value.startsWith('video') || input.value.startsWith('cuestionario_conocimientos_previos') || input.value.startsWith('conceptos')).map(input => input.value),
-                        durante: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.startsWith('contenido') || input.value.startsWith('ejemplos') || input.value.startsWith('tarea_individual') || input.value.startsWith('tarea_grupal') || input.value.startsWith('herramientas') || input.value.startsWith('ejercicios_programacion') || input.value.startsWith('ejercicios_completar_codigo') || input.value.startsWith('ejercicios_corregir_codigo') || input.value.startsWith('proyecto')).map(input => input.value),
-                        despues: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.startsWith('cuestionario_final') || input.value.startsWith('ejercicios_practicar') || input.value.startsWith('resumen_final') || input.value.startsWith('tarea_despues_clase') || input.value.startsWith('recomendacion_libros') || input.value.startsWith('aplicacion_problemas_reales')).map(input => input.value)
+                        antes: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.startsarts('motivacion') || input.value.startsarts('objetivos') || input.value.startsarts('preguntas') || input.value.startsarts('introduccion') || input.value.startsarts('video') || input.value.startsarts('cuestionario_conocimientos_previos') || input.value.startsarts('conceptos')).map(input => input.value),
+                        durante: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.startsarts('contenido') || input.value.startsarts('ejemplos') || input.value.startsarts('tarea_individual') || input.value.startsarts('tarea_grupal') || input.value.startsarts('herramientas') || input.value.startsarts('ejercicios_programacion') || input.value.startsarts('ejercicios_completar_codigo') || input.value.startsarts('ejercicios_corregir_codigo') || input.value.startsarts('proyecto')).map(input => input.value),
+                        despues: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).filter(input => input.value.startsarts('cuestionario_final') || input.value.startsarts('ejercicios_practicar') || input.value.startsarts('resumen_final') || input.value.startsarts('tarea_despues_clase') || input.value.startsarts('recomendacion_libros') || input.value.startsarts('aplicacion_problemas_reales')).map(input => input.value)
                     }
                 })
             })
@@ -102,10 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.status === 'Error') {
                     alert('Error: ' + data.message);
                 } else {
-                    alert(data.status);
-                    if (data.ruta) {
-                        window.location.href = data.ruta;
-                    }
+                    alert(data.status + (data.ruta ? '\nRuta: ' + data.ruta : ''));
                 }
             })
             .catch(error => {
